@@ -3,7 +3,7 @@
 # File Created: 27-09-2021 16:33:44
 # Author: Clay Risser
 # -----
-# Last Modified: 11-01-2022 02:47:11
+# Last Modified: 11-01-2022 03:22:39
 # Modified By: Clay Risser
 # -----
 # BitSpur Inc (c) Copyright 2021
@@ -22,7 +22,7 @@
 
 MKPM_PKG_NAME := envcache
 
-MKPM_PKG_VERSION := 0.0.1
+MKPM_PKG_VERSION := 0.0.2
 
 MKPM_PKG_DESCRIPTION := "cache calculated envs for faster load time"
 

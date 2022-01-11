@@ -3,7 +3,7 @@
 # File Created: 11-01-2022 02:41:58
 # Author: Clay Risser
 # -----
-# Last Modified: 11-01-2022 03:17:41
+# Last Modified: 11-01-2022 03:22:23
 # Modified By: Clay Risser
 # -----
 # BitSpur Inc (c) Copyright 2021 - 2022
@@ -21,6 +21,8 @@
 # limitations under the License.
 
 _ENVS := $(MKPM_TMP)/envcache/envs
+
+export MKCACHE_RESET_ENVS := $(call rm_rf,$(_ENVS)) $(NOFAIL)
 
 ifneq ($(_ENVS),/envcache/envs)
 -include $(_ENVS)
