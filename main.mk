@@ -3,10 +3,10 @@
 # File Created: 11-01-2022 02:41:58
 # Author: Clay Risser
 # -----
-# Last Modified: 11-01-2022 03:22:23
+# Last Modified: 22-06-2022 15:12:44
 # Modified By: Clay Risser
 # -----
-# BitSpur Inc (c) Copyright 2021 - 2022
+# Risser Labs LLC (c) Copyright 2021 - 2022
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,25 +22,20 @@
 
 _ENVS := $(MKPM_TMP)/envcache/envs
 
-export MKCACHE_RESET_ENVS := $(call rm_rf,$(_ENVS)) $(NOFAIL)
+export MKCACHE_RESET_ENVS := $(RM) -rf $(_ENVS) $(NOFAIL)
 
 ifneq ($(_ENVS),/envcache/envs)
 -include $(_ENVS)
-ifneq ($(patsubst %.exe,%,$(SHELL)),$(SHELL))
-$(_ENVS):
-	@$(call mkdir_p,$(@D))
-	@$(call touch,$@)
-else
-$(_ENVS): $(call join_path,$(PROJECT_ROOT),mkpm.mk) $(call join_path,$(ROOT),Makefile) $(GLOBAL_MK) $(LOCAL_MK)
+$(_ENVS): $(PROJECT_ROOT)/mkpm.mk $(ROOT)/Makefile $(GLOBAL_MK) $(LOCAL_MK)
 	@$(ECHO) 🗲  make will be faster next time
-	@$(call mkdir_p,$(@D))
-	@$(call rm_rf,$@) $(NOFAIL)
-	@$(call touch,$@)
-	@$(call for,e,$$CACHE_ENVS) \
-		if [ "$$($(ECHO) $$(eval "echo \$$$(call for_i,e)") | $(AWK) '{$$1=$$1};1')" != "" ]; then \
-			$(ECHO) "export $(call for_i,e) := $$(eval "echo \$$$(call for_i,e)")" >> $(_ENVS); \
+	@$(MKDIR) -p $(@D)
+	@$(RM) -rf $@ $(NOFAIL)
+	@$(TOUCH) $@
+	@for e in $$CACHE_ENVS; do \
+		if [ "$$($(ECHO) $$(eval "echo \$$$$e") | $(AWK) '{$$1=$$1};1')" != "" ]; then \
+			$(ECHO) "export $$e := $$(eval "echo \$$$$e")" >> $(_ENVS); \
 		fi \
-	$(call for_end)
+	done
 endif
-endif
+
 export CACHE_ENVS += \
