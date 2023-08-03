@@ -1,12 +1,12 @@
 # File: /Makefile
-# Project: mkchain
-# File Created: 26-09-2021 16:53:36
-# Author: Clay Risser
+# Project: envcache
+# File Created: 03-08-2023 17:30:33
+# Author: Ajith Kumar
 # -----
-# Last Modified: 22-06-2022 14:49:38
-# Modified By: Clay Risser
+# Last Modified: 03-08-2023 17:31:03
+# Modified By: Ajith Kumar
 # -----
-# Risser Labs LLC (c) Copyright 2021
+# Risser Labs LLC (c) Copyright 2021 - 2023
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,41 +20,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include mkpm.mk
-ifneq (,$(MKPM_READY))
-include main.mk
+.ONESHELL:
+.POSIX:
+.SILENT:
 
-PACK_DIR := $(MKPM_TMP)/pack
-
-.PHONY: pack
-pack:
-	@rm -rf $(PACK_DIR) $(NOFAIL) && mkdir -p $(PACK_DIR)
-	@cp main.mk $(PACK_DIR)
-	@cp mkpm.mk $(PACK_DIR)
-	@cp LICENSE $(PACK_DIR) $(NOFAIL)
-	@for f in $(shell [ "$(MKPM_FILES_REGEX)" = "" ] || \
-		$(FIND) . -type f -not -path './.git/*' | $(SED) 's|^\.\/||g' | \
-		$(GREP) -E "$(MKPM_FILES_REGEX)") \
-		$(shell $(GIT) ls-files | $(GREP) -E "^README[^\/]*$$"); do \
-			PARENT_DIR=$$(echo $$f | $(SED) 's|[^\/]\+$$||g' | $(SED) 's|\/$$||g') && \
-			([ "$$PARENT_DIR" != "" ] && mkdir -p $(PACK_DIR)/$$PARENT_DIR || true) && \
-			cp $$f $(PACK_DIR)/$$f; \
-		done
-	@tar -cvzf $(MKPM_PKG_NAME).tar.gz -C $(PACK_DIR) .
-
-.PHONY: publish
-publish: pack
-
-.PHONY: clean
-clean:
-	@$(MKCHAIN_CLEAN)
-	@$(GIT) clean -fXd \
-		$(MKPM_GIT_CLEAN_FLAGS)
-
-.PHONY: purge
-purge: clean
-	@$(GIT) clean -fXd
-
--include $(call actions)
-
-endif
+MKPM := ./mkpm
+.PHONY: %
+%:
+	@$(MKPM) "$@" $(ARGS)
