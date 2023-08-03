@@ -1,6 +1,6 @@
 {
   "name": "envcache",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "cache calculated envs for faster load time",
   "author": "Clay Risser <clayrisser@gmail.com>",
   "repo": "git@gitlab.com:bitspur/mkpm/packages.git",
