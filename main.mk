@@ -3,7 +3,7 @@
 # File Created: 11-01-2022 02:41:58
 # Author: Clay Risser
 # -----
-# Last Modified: 22-06-2022 15:12:44
+# Last Modified: 11-09-2023 06:41:28
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -26,7 +26,7 @@ export MKCACHE_RESET_ENVS := $(RM) -rf $(_ENVS) $(NOFAIL)
 
 ifneq ($(_ENVS),/envcache/envs)
 -include $(_ENVS)
-$(_ENVS): $(PROJECT_ROOT)/mkpm.mk $(ROOT)/Makefile $(GLOBAL_MK) $(LOCAL_MK)
+$(_ENVS):
 	@$(ECHO) 🗲  make will be faster next time
 	@$(MKDIR) -p $(@D)
 	@$(RM) -rf $@ $(NOFAIL)
